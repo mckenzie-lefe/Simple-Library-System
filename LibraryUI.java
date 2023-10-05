@@ -14,6 +14,17 @@ public class LibraryUI {
         } 
         return memberId;
     }
+
+    public static int getBookIdFromUser() throws IOException {
+        System.out.print("Enter the book id: ");
+        int bookId = SCANNER.nextInt();
+        SCANNER.nextLine();
+        if (!library.isLibraryBook(bookId)) {
+            System.out.println("Invalid book id.");
+            throw new IOException();
+        }
+        return bookId;
+    }
     
     public static void main(String[] args) {
         String memberId;
@@ -41,14 +52,8 @@ public class LibraryUI {
                 switch (choice) {
                     case 1:
                         memberId = getUsersMemberId();
+                        bookId = getBookIdFromUser();
 
-                        System.out.print("Enter the book id to return: ");
-                        bookId = SCANNER.nextInt();
-                        SCANNER.nextLine();
-                        if (!library.isLibraryBook(bookId)) {
-                            System.out.println("Invalid book id.");
-                            continue;
-                        }
                         if (library.checkOutBook(memberId, bookId)) {
                             System.out.println("Book successfully checked out.");
                         } else {
@@ -58,14 +63,7 @@ public class LibraryUI {
 
                     case 2:
                         memberId = getUsersMemberId();
-
-                        System.out.print("Enter the book id to return: ");
-                        bookId = SCANNER.nextInt();
-                        SCANNER.nextLine();
-                        if (!library.isLibraryBook(bookId)) {
-                            System.out.println("Invalid book id.");
-                            continue;
-                        }
+                        bookId = getBookIdFromUser();
 
                         System.out.print("Did you like the book? (yes/no): ");
                         String likeInput = SCANNER.nextLine();
@@ -81,7 +79,6 @@ public class LibraryUI {
 
                     case 3:
                         memberId = getUsersMemberId();
-
                         double overDueCharge = library.getMembersOverDueCharges(memberId);
 
                         if (overDueCharge == 0.0) {
@@ -100,7 +97,6 @@ public class LibraryUI {
 
                     case 4:
                         memberId = getUsersMemberId();
-
                         System.out.println(library.getMembersOverDueBooks(memberId));
                         break;
 
@@ -110,7 +106,6 @@ public class LibraryUI {
                         System.out.print("Enter the book title to look up: ");
                         String bookTitle = SCANNER.nextLine();
                         String bookInfo = library.getBookInfo(bookTitle);
-
                         if (bookInfo == null) {
                             System.out.println("Invalid book Title.");
                             continue;
