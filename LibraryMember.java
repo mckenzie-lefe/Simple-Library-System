@@ -38,7 +38,7 @@ public class LibraryMember {
         return this.checkedOutBooks;
     }
 
-    public void checkOutBook(BookForBorrow book, LocalDate checkOutDate) {      
+    public void checkOutBook(Book book, LocalDate checkOutDate) {      
         this.checkedOutBooks.put(book.getBookId(), checkOutDate);
     }
 

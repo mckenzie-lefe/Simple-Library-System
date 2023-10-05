@@ -4,7 +4,7 @@ import java.util.Map;
 
 public class LibrarySystem {
     private Map<String, LibraryMember> libraryMembers;
-    private Map<Integer, BookForBorrow> libraryBooks;
+    private Map<Integer, Book> libraryBooks;
     private Map<Integer, Rating> bookRatings;
 
     public LibrarySystem() {
@@ -27,7 +27,7 @@ public class LibrarySystem {
         return true;
     }
 
-    public void addBook(int id, BookForBorrow book) {
+    public void addBook(int id, Book book) {
         this.libraryBooks.put(id, book);
         this.bookRatings.put(id, new Rating());
     }
@@ -37,7 +37,7 @@ public class LibrarySystem {
     }
 
     public String getBookInfo(String bookTitle) {
-        for (BookForBorrow book : this.libraryBooks.values()){
+        for (Book book : this.libraryBooks.values()){
             if (book.getTitle().equals(bookTitle)){
                 return book.getInfo() + "\n Rating: %" + this.bookRatings.get(book.getBookId()).getAverageRating();
             }
@@ -47,7 +47,7 @@ public class LibrarySystem {
 
     public boolean checkOutBook(String memberId, int bookId) {
         LibraryMember member = this.libraryMembers.get(memberId);
-        BookForBorrow book = this.libraryBooks.get(bookId);
+        Book book = this.libraryBooks.get(bookId);
         
         if (book.isCheckedOut()) {
             return false;
@@ -82,7 +82,7 @@ public class LibrarySystem {
 
     public boolean returnBook(String memberId, int bookId, boolean liked) {
         LibraryMember member = this.libraryMembers.get(memberId);
-        BookForBorrow book = this.libraryBooks.get(bookId);
+        Book book = this.libraryBooks.get(bookId);
 
         if (book.getCheckedOutBy() != null && book.getCheckedOutBy().equals(member.getMemberId())) {
             if (member.getOverDueCharges() != 0.0)  {

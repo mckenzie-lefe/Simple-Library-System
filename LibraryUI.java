@@ -32,9 +32,9 @@ public class LibraryUI {
         
         library.addLibraryMember("123", new LibraryMember("123", "John Student", "555-555-5555", 0));
         library.addLibraryMember("456", new LibraryMember("456", "Jane Teacher", "555-555-5556", 1));
-        BookForBorrow book1 = new BookForBorrow(1, "Book 1", "Author 1", "Description 1");
+        Book book1 = new Book(1, "Book 1", "Author 1", "Description 1");
         library.addBook(1, book1);
-        BookForBorrow book2 = new BookForBorrow (2, "Book 2", "Author 2", "Description 2");
+        Book book2 = new Book(2, "Book 2", "Author 2", "Description 2");
         library.addBook(2, book2);
 
         while (true) {

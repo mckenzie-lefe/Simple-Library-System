@@ -6,7 +6,7 @@ public class TestLibrarySystem {
     @Test
     public void testAddBook() {
         LibrarySystem library = new LibrarySystem();
-        BookForBorrow book = new BookForBorrow(1, "Title", "Author", "Description");
+        Book book = new Book(1, "Title", "Author", "Description");
 
         library.addBook(1, book);
         assertTrue(library.isLibraryBook(1));
@@ -25,7 +25,7 @@ public class TestLibrarySystem {
     public void testCheckOutBook() {
         LibrarySystem library = new LibrarySystem();
         LibraryMember member = new LibraryMember("123", "John", "555-555-5555", LibraryMember.STUDENT);
-        BookForBorrow book = new BookForBorrow(1, "Title", "Author", "Description");
+        Book book = new Book(1, "Title", "Author", "Description");
 
         library.addLibraryMember("123", member);
         library.addBook(1, book);
@@ -39,7 +39,7 @@ public class TestLibrarySystem {
     public void testReturnBook() {
         LibrarySystem library = new LibrarySystem();
         LibraryMember member = new LibraryMember("123", "John", "555-555-5555", LibraryMember.STUDENT);
-        BookForBorrow book = new BookForBorrow(1, "Title", "Author", "Description");
+        Book book = new Book(1, "Title", "Author", "Description");
 
         library.addLibraryMember("123", member);
         library.addBook(1, book);
@@ -54,7 +54,7 @@ public class TestLibrarySystem {
     public void testGetBookInfo() {
         LibrarySystem library = new LibrarySystem();
         LibraryMember member = new LibraryMember("123", "John", "555-555-5555", LibraryMember.STUDENT);
-        BookForBorrow book = new BookForBorrow(1, "Title", "Author", "Description");
+        Book book = new Book(1, "Title", "Author", "Description");
 
         library.addLibraryMember("123", member);
         library.addBook(1, book);

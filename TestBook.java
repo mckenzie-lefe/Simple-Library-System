@@ -10,5 +10,56 @@ public class TestBook{
         assertEquals(1, book.getBookId());
         assertEquals("Title", book.getTitle());
         assertEquals("ID: 1\nTitle: Title\nAuthor: Author\nDescription: Description", book.getInfo());
+        assertFalse(book.isCheckedOut());
+        assertNull(book.getCheckedOutBy());
+    }
+
+    @Test
+    public void testCheckOut() {
+        Book book = new Book(1, "Title", "Author", "Description");
+
+        book.checkOut("123");
+        assertTrue(book.isCheckedOut());
+        assertEquals("123", book.getCheckedOutBy());
+    }
+
+    @Test
+    public void testCheckOutWhenAlreadyCheckedOut() {
+        Book book = new Book(1, "Title", "Author", "Description");
+
+        book.checkOut("123");
+        assertThrows(IllegalStateException.class, () -> book.checkOut("456"));
+    }
+
+    @Test
+    public void testReturnBook() {
+        Book book = new Book(1, "Title", "Author", "Description");
+
+        book.checkOut("123");
+        book.returnBook();
+        assertFalse(book.isCheckedOut());
+        assertNull(book.getCheckedOutBy());
+    }
+
+    @Test
+    public void testReturnBookWhenNotCheckedOut() {
+        Book book = new Book(1, "Title", "Author", "Description");
+
+        assertThrows(IllegalStateException.class, book::returnBook);
+    }
+
+    @Test
+    public void testGetCheckedOutBy() {
+        Book book = new Book(1, "Title", "Author", "Description");
+        book.checkOut("123");
+
+        assertEquals("123", book.getCheckedOutBy());
+    }
+
+    @Test
+    public void testGetCheckedOutByWhenNotCheckedOut() {
+        Book book = new Book(1, "Title", "Author", "Description");
+
+        assertNull(book.getCheckedOutBy());
     }
 }
