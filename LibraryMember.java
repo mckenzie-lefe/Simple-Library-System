@@ -55,6 +55,15 @@ public class LibraryMember {
         return 0;
     }
 
+    public double calcOverDueCharge(int days) {
+        if(this.memberType == STUDENT) {
+            return days * 3.00;
+        } else if (this.memberType == TEACHER) {
+            return days * 2.00;
+        } 
+        return 0.0;
+    }
+
     public Map<Integer, Integer> getOverDueBooks() {
         Map<Integer, Integer> overDueBooks = new HashMap<>();
 
@@ -69,31 +78,17 @@ public class LibraryMember {
 
     public double getOverDueCharges() {
         Map<Integer, Integer> overDueBooks = getOverDueBooks();
-        int daysUnpaid = 0;
         double charge = 0.0;
 
-        if (this.memberType == STUDENT) {
-            for (Map.Entry<Integer, Integer> overDueBook : overDueBooks.entrySet()) {
-                LocalDate dateCheckedOut = this.checkedOutBooks.get(overDueBook.getKey());
-                if (this.lastPayment.isBefore(dateCheckedOut)) {
-                    charge = charge + (overDueBook.getValue() * 3.00);       
-                } else {
-                    daysUnpaid = (int) ChronoUnit.DAYS.between(this.lastPayment , LocalDate.now());
-                    charge = charge + (daysUnpaid * 3.00);
-                }
-            }
-        } else if (this.memberType == TEACHER) {
-            for (Map.Entry<Integer, Integer> overDueBook : overDueBooks.entrySet()) {
-                LocalDate dateCheckedOut = this.checkedOutBooks.get(overDueBook.getKey());
-                if (this.lastPayment.isBefore(dateCheckedOut)) {
-                    charge = charge + (overDueBook.getValue() * 2.00);       
-                } else {
-                    daysUnpaid = (int) ChronoUnit.DAYS.between(this.lastPayment , LocalDate.now());
-                    charge = charge + (daysUnpaid * 2.00);
-                }
+        for (Map.Entry<Integer, Integer> overDueBook : overDueBooks.entrySet()) {
+            LocalDate dateCheckedOut = this.checkedOutBooks.get(overDueBook.getKey());
+            if (this.lastPayment.isBefore(dateCheckedOut)) {
+                charge = charge + calcOverDueCharge(overDueBook.getValue());       
+            } else {
+                int daysUnpaid = (int) ChronoUnit.DAYS.between(this.lastPayment , LocalDate.now());
+                charge = charge + calcOverDueCharge(daysUnpaid);
             }
         }
-
         return charge;
     }
 }
