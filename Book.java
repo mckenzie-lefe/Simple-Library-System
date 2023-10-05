@@ -5,7 +5,8 @@ public class Book {
     private String description;
     private boolean checkedOut;
     private String checkedOutBy;
-    private Rating bookRatings;
+    private int ratingsCount;
+    private double averageRating;
 
     public Book(int bookId, String title, String author, String description) {
         this.bookId = bookId;
@@ -14,7 +15,8 @@ public class Book {
         this.description = description;
         this.checkedOut = false;
         this.checkedOutBy = null;
-        this.bookRatings = new Rating();
+        this.ratingsCount = 0;
+        this.averageRating = 0.00;
     }
 
     public int getBookId() {
@@ -25,13 +27,18 @@ public class Book {
         return this.title;
     }
 
-    public void updateRating(boolean review) {
-        this.bookRatings.updateRating(review);
+    public void updateRating(boolean liked) {
+        this.ratingsCount++;
+        if (liked) {
+            this.averageRating = (this.averageRating * (this.ratingsCount - 1) + 1) / this.ratingsCount;
+        } else {
+            this.averageRating = (this.averageRating * (this.ratingsCount - 1)) / this.ratingsCount;
+        }
     }
 
     public String getInfo() {
         return "ID: " + this.bookId + "\nTitle: " + this.title + "\nAuthor: " + 
-            this.author + "\nDescription: " + this.description + "\nRating: %" + this.bookRatings.getAverageRating();
+            this.author + "\nDescription: " + this.description + "\nRating: %" + String.format("%.2f",this.averageRating);
     }
 
     public boolean isCheckedOut() {
