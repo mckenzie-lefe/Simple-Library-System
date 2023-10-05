@@ -46,25 +46,24 @@ public class LibraryMember {
         this.checkedOutBooks.remove(bookID);
     }
 
+    public int calcDaysOverDue(LocalDate dayCheckedOut) {
+        if(this.memberType == STUDENT) {
+            return (int) ChronoUnit.DAYS.between(dayCheckedOut, LocalDate.now()) - 7;
+        } else if (this.memberType == TEACHER) {
+            return (int) ChronoUnit.DAYS.between(dayCheckedOut, LocalDate.now()) - 14;
+        } 
+        return 0;
+    }
+
     public Map<Integer, Integer> getOverDueBooks() {
         Map<Integer, Integer> overDueBooks = new HashMap<>();
 
-        if (this.memberType == STUDENT) {
-            for (Map.Entry<Integer, LocalDate> checkedOutBook : this.checkedOutBooks.entrySet()) {
-                int daysOverDue = (int) ChronoUnit.DAYS.between(checkedOutBook.getValue() , LocalDate.now()) - 7;
-                if (daysOverDue > 0) {
-                    overDueBooks.put(checkedOutBook.getKey(), daysOverDue);
-                }
+        for (Map.Entry<Integer, LocalDate> checkedOutBook : this.checkedOutBooks.entrySet()) {
+            int daysOverDue = calcDaysOverDue(checkedOutBook.getValue());
+            if (daysOverDue > 0) {
+                overDueBooks.put(checkedOutBook.getKey(), daysOverDue);
             }
-        } else if(this.memberType == TEACHER) {
-            for (Map.Entry<Integer, LocalDate> checkedOutBook : this.checkedOutBooks.entrySet()) {
-                int daysOverDue = (int) ChronoUnit.DAYS.between(checkedOutBook.getValue() , LocalDate.now()) - 14;
-                if (daysOverDue > 0) {
-                    overDueBooks.put(checkedOutBook.getKey(), daysOverDue);
-                }
-            }
-        } 
-
+        }
         return overDueBooks;
     }
 

@@ -98,4 +98,12 @@ public class TestLibraryMember {
 
         assertEquals(LocalDate.now(), member.getLastPayment());
     }
+
+    @Test 
+    public void testCalcDaysOverDueCharge() {
+        LibraryMember member = new LibraryMember("123", "John", "555-555-5555", LibraryMember.STUDENT);
+        
+        // 20 - 7 = 13
+        assertEquals(13, member.calcDaysOverDue(LocalDate.now().minusDays(20)));
+    }
 }
