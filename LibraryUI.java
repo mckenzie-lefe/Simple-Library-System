@@ -1,12 +1,24 @@
+import java.io.IOException;
 import java.util.Scanner;
 
 public class LibraryUI {
     private static final Scanner SCANNER = new Scanner(System.in);
+    private static LibrarySystem library = new LibrarySystem();
  
+    public static String getUsersMemberId() throws IOException {
+        System.out.print("Enter your library member id: ");
+        String memberId = SCANNER.nextLine();
+        if (library.isLibraryMember(memberId)) {
+            System.out.println("Invalid library member id.");
+            throw new IOException();
+        } 
+        return memberId;
+    }
+    
     public static void main(String[] args) {
         String memberId;
         int bookId;
-        LibrarySystem library = new LibrarySystem();
+        
         library.addLibraryMember("123", new LibraryMember("123", "John Student", "555-555-5555", 0));
         library.addLibraryMember("456", new LibraryMember("456", "Jane Teacher", "555-555-5556", 1));
         BookForBorrow book1 = new BookForBorrow(1, "Book 1", "Author 1", "Description 1");
@@ -25,124 +37,99 @@ public class LibraryUI {
             int choice = SCANNER.nextInt();
             SCANNER.nextLine();
             System.out.println();
+            try {
+                switch (choice) {
+                    case 1:
+                        memberId = getUsersMemberId();
 
-            switch (choice) {
-                case 1:
-                    System.out.print("Enter your library card id: ");
-                    memberId = SCANNER.nextLine();
-                    if (!library.isLibraryMember(memberId)) {
-                        System.out.println("Invalid library card id.");
-                        continue;
-                    }
-
-                    System.out.print("Enter the book id to check out: ");
-                    bookId = SCANNER.nextInt();
-                    SCANNER.nextLine();
-                    if (!library.isLibraryBook(bookId)) {
-                        System.out.println("Invalid book id.");
-                        continue;
-                    }
-
-                    if (library.checkOutBook(memberId, bookId)) {
-                        System.out.println("Book successfully checked out.");
-                    } else {
-                        System.out.println("The book is already checked out.");
-                    }
-                    break;
-
-                case 2:
-                    System.out.print("Enter your library card id: ");
-                    memberId = SCANNER.nextLine();
-                    if (!library.isLibraryMember(memberId)) {
-                        System.out.println("Invalid library card id.");
-                        continue;
-                    }
-
-                    System.out.print("Enter the book id to return: ");
-                    bookId = SCANNER.nextInt();
-                    SCANNER.nextLine();
-                    if (!library.isLibraryBook(bookId)) {
-                        System.out.println("Invalid book id.");
-                        continue;
-                    }
-
-                    System.out.print("Did you like the book? (yes/no): ");
-                    String likeInput = SCANNER.nextLine();
-                    boolean liked = likeInput.equalsIgnoreCase("yes");
-        
-                    if(library.returnBook(memberId, bookId, liked)) {
-                        System.out.println("Book returned successfully.");
-                    } else {
-                        System.out.println("Unable to return book.");
-                        System.out.println("Please ensure you have entered the correct book id and that your over due fees are paid before returning any books");   
-                    }
-                    break;
-
-                case 3:
-                    System.out.print("Enter your library card id: ");
-                    memberId = SCANNER.nextLine();
-                    if (library.isLibraryMember(memberId)) {
-                        System.out.println("Invalid library card id.");
-                        continue;
-                    }
-
-                    double overDueCharge = library.getMembersOverDueCharges(memberId);
-
-                    if (overDueCharge == 0.0) {
-                        System.out.println("You have not over due charges.");
-                    } else {
-                        System.out.println("You own $" + overDueCharge);
-                        System.out.println("Would you like to pay now?(yes/no)");
-                        String payNowInput = SCANNER.nextLine();
-                        boolean payNow = payNowInput.equalsIgnoreCase("yes");  
-                        if (payNow) {
-                            library.updateMembersLastPayment(memberId);
-                            System.out.println("Over due fees paid.");
+                        System.out.print("Enter the book id to return: ");
+                        bookId = SCANNER.nextInt();
+                        SCANNER.nextLine();
+                        if (!library.isLibraryBook(bookId)) {
+                            System.out.println("Invalid book id.");
+                            continue;
                         }
-                    }
-                    break;
+                        if (library.checkOutBook(memberId, bookId)) {
+                            System.out.println("Book successfully checked out.");
+                        } else {
+                            System.out.println("The book is already checked out.");
+                        }
+                        break;
 
-                case 4:
-                    System.out.print("Enter your library card id: ");
-                    memberId = SCANNER.nextLine();
+                    case 2:
+                        memberId = getUsersMemberId();
 
-                    if (library.isLibraryMember(memberId)) {
-                        System.out.println("Invalid library card id.");
-                        continue;
-                    }
+                        System.out.print("Enter the book id to return: ");
+                        bookId = SCANNER.nextInt();
+                        SCANNER.nextLine();
+                        if (!library.isLibraryBook(bookId)) {
+                            System.out.println("Invalid book id.");
+                            continue;
+                        }
 
-                    System.out.println(library.getMembersOverDueBooks(memberId));
-                    break;
+                        System.out.print("Did you like the book? (yes/no): ");
+                        String likeInput = SCANNER.nextLine();
+                        boolean liked = likeInput.equalsIgnoreCase("yes");
+            
+                        if(library.returnBook(memberId, bookId, liked)) {
+                            System.out.println("Book returned successfully.");
+                        } else {
+                            System.out.println("Unable to return book.");
+                            System.out.println("Please ensure you have entered the correct book id and that your over due fees are paid before returning any books");   
+                        }
+                        break;
 
-                case 5:
-                    System.out.print("Enter your library card id: ");
-                    memberId = SCANNER.nextLine();
+                    case 3:
+                        memberId = getUsersMemberId();
 
-                    if (library.isLibraryMember(memberId)) {
-                        System.out.println("Invalid library card id.");
-                        continue;
-                    }
+                        double overDueCharge = library.getMembersOverDueCharges(memberId);
 
-                    System.out.print("Enter the book title to look up: ");
-                    String bookTitle = SCANNER.nextLine();
-                    String bookInfo = library.getBookInfo(bookTitle);
+                        if (overDueCharge == 0.0) {
+                            System.out.println("You have not over due charges.");
+                        } else {
+                            System.out.println("You own $" + overDueCharge);
+                            System.out.println("Would you like to pay now?(yes/no)");
+                            String payNowInput = SCANNER.nextLine();
+                            boolean payNow = payNowInput.equalsIgnoreCase("yes");  
+                            if (payNow) {
+                                library.updateMembersLastPayment(memberId);
+                                System.out.println("Over due fees paid.");
+                            }
+                        }
+                        break;
 
-                    if (bookInfo == null) {
-                        System.out.println("Invalid book Title.");
-                        continue;
-                    }
+                    case 4:
+                        memberId = getUsersMemberId();
 
-                    System.out.println(bookInfo);
-                    break;
+                        System.out.println(library.getMembersOverDueBooks(memberId));
+                        break;
 
-                case 6:
-                    System.out.println("Exiting the library system.");
-                    SCANNER.close();
-                    System.exit(0);
-                    break;
+                    case 5:
+                        memberId = getUsersMemberId();
 
-                default:
-                    System.out.println("Invalid choice. Please try again.");
+                        System.out.print("Enter the book title to look up: ");
+                        String bookTitle = SCANNER.nextLine();
+                        String bookInfo = library.getBookInfo(bookTitle);
+
+                        if (bookInfo == null) {
+                            System.out.println("Invalid book Title.");
+                            continue;
+                        }
+
+                        System.out.println(bookInfo);
+                        break;
+
+                    case 6:
+                        System.out.println("Exiting the library system.");
+                        SCANNER.close();
+                        System.exit(0);
+                        break;
+
+                    default:
+                        System.out.println("Invalid choice. Please try again.");
+                }
+            } catch (IOException e){
+                continue;
             }
         }
     }
