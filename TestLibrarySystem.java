@@ -59,7 +59,7 @@ public class TestLibrarySystem {
         library.addLibraryMember("123", member);
         library.addBook(1, book);
 
-        String expectedInfo = "ID: 1\nTitle: Title\nAuthor: Author\nDescription: Description\n Rating: %0.0";
+        String expectedInfo = "ID: 1\nTitle: Title\nAuthor: Author\nDescription: Description\nRating: %0.0";
         assertEquals(expectedInfo, library.getBookInfo("Title"));
     }
 }

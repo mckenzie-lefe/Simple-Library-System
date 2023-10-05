@@ -5,6 +5,7 @@ public class Book {
     private String description;
     private boolean checkedOut;
     private String checkedOutBy;
+    private Rating bookRatings;
 
     public Book(int bookId, String title, String author, String description) {
         this.bookId = bookId;
@@ -13,6 +14,7 @@ public class Book {
         this.description = description;
         this.checkedOut = false;
         this.checkedOutBy = null;
+        this.bookRatings = new Rating();
     }
 
     public int getBookId() {
@@ -23,9 +25,13 @@ public class Book {
         return this.title;
     }
 
+    public void updateRating(boolean review) {
+        this.bookRatings.updateRating(review);
+    }
+
     public String getInfo() {
         return "ID: " + this.bookId + "\nTitle: " + this.title + "\nAuthor: " + 
-            this.author + "\nDescription: " + this.description;
+            this.author + "\nDescription: " + this.description + "\nRating: %" + this.bookRatings.getAverageRating();
     }
 
     public boolean isCheckedOut() {

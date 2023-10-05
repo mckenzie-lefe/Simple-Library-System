@@ -9,7 +9,7 @@ public class TestBook{
 
         assertEquals(1, book.getBookId());
         assertEquals("Title", book.getTitle());
-        assertEquals("ID: 1\nTitle: Title\nAuthor: Author\nDescription: Description", book.getInfo());
+        assertEquals("ID: 1\nTitle: Title\nAuthor: Author\nDescription: Description\nRating: %0.0", book.getInfo());
         assertFalse(book.isCheckedOut());
         assertNull(book.getCheckedOutBy());
     }

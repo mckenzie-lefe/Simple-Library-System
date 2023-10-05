@@ -5,12 +5,10 @@ import java.util.Map;
 public class LibrarySystem {
     private Map<String, LibraryMember> libraryMembers;
     private Map<Integer, Book> libraryBooks;
-    private Map<Integer, Rating> bookRatings;
 
     public LibrarySystem() {
         this.libraryMembers = new HashMap<>();
         this.libraryBooks = new HashMap<>();
-        this.bookRatings = new HashMap<>();
     }
 
     public boolean isLibraryMember(String id) {
@@ -29,7 +27,6 @@ public class LibrarySystem {
 
     public void addBook(int id, Book book) {
         this.libraryBooks.put(id, book);
-        this.bookRatings.put(id, new Rating());
     }
 
     public void addLibraryMember(String id, LibraryMember member) {
@@ -39,7 +36,7 @@ public class LibrarySystem {
     public String getBookInfo(String bookTitle) {
         for (Book book : this.libraryBooks.values()){
             if (book.getTitle().equals(bookTitle)){
-                return book.getInfo() + "\n Rating: %" + this.bookRatings.get(book.getBookId()).getAverageRating();
+                return book.getInfo();
             }
         }
         return null;
@@ -90,7 +87,7 @@ public class LibrarySystem {
             }
             book.returnBook();
             member.returnBook(book.getBookId());
-            this.bookRatings.get(book.getBookId()).updateRating(liked);
+            book.updateRating(liked);
             return true;
 
         } 
