@@ -7,13 +7,13 @@ public class TestLibraryMember {
 
     @Test
     public void testGetMemberId() {
-        LibraryMember member = new LibraryMember("123", "John", "555-555-5555", LibraryMember.STUDENT);
+        LibraryMember member = new StudentMember("123", "John", "555-555-5555");
         assertEquals("123", member.getMemberId());
     }
 
     @Test
     public void testCheckOutBook() {
-        LibraryMember member = new LibraryMember("123", "John", "555-555-5555", LibraryMember.STUDENT);
+        LibraryMember member = new StudentMember("123", "John", "555-555-5555");
         Book book = new Book(1, "Title", "Author", "Description");
 
         member.checkOutBook(book, LocalDate.now());
@@ -22,7 +22,7 @@ public class TestLibraryMember {
 
     @Test
     public void testReturnBook() {
-        LibraryMember member = new LibraryMember("123", "John", "555-555-5555", LibraryMember.STUDENT);
+        LibraryMember member = new StudentMember("123", "John", "555-555-5555");
         Book book = new Book(1, "Title", "Author", "Description");
 
         member.checkOutBook(book, LocalDate.now());
@@ -32,7 +32,7 @@ public class TestLibraryMember {
 
     @Test
     public void testGetCheckedOutBooks() {
-        LibraryMember member = new LibraryMember("123", "John", "555-555-5555", LibraryMember.STUDENT);
+        LibraryMember member = new StudentMember("123", "John", "555-555-5555");
         Book book = new Book(1, "Title", "Author", "Description");
 
         member.checkOutBook(book, LocalDate.now());
@@ -43,7 +43,7 @@ public class TestLibraryMember {
 
     @Test
     public void testGetOverDueBooksForStudent() {
-        LibraryMember studentMember = new LibraryMember("123", "John", "555-555-5555", LibraryMember.STUDENT);
+        LibraryMember studentMember = new StudentMember("123", "John", "555-555-5555");
         Book overdueBook = new Book(1, "Overdue Book", "Author", "Description");
         Book notOverdueBook = new Book(2, "Not Overdue Book", "Author", "Description");
 
@@ -57,7 +57,7 @@ public class TestLibraryMember {
 
     @Test
     public void testGetOverDueBooksForTeacher() {
-        LibraryMember teacherMember = new LibraryMember("456", "Jane", "555-555-5556", LibraryMember.TEACHER);
+        LibraryMember teacherMember = new TeacherMember("456", "Jane", "555-555-5556");
         Book overdueBook = new Book(1, "Overdue Book", "Author", "Description");
         Book notOverdueBook = new Book(2, "Not Overdue Book", "Author", "Description");
 
@@ -71,7 +71,7 @@ public class TestLibraryMember {
 
     @Test
     public void testGetOverDueChargesForStudents() {
-        LibraryMember studentMember = new LibraryMember("123", "John", "555-555-5555", LibraryMember.STUDENT);
+        LibraryMember studentMember = new StudentMember("123", "John", "555-555-5555");
         Book studentBook = new Book(1, "Student Book", "Author", "Description");
 
         studentMember.checkOutBook(studentBook, LocalDate.now().minusDays(8));
@@ -82,7 +82,7 @@ public class TestLibraryMember {
 
     @Test
     public void testGetOverDueChargesForTeacher() {
-        LibraryMember teacherMember = new LibraryMember("456", "Jane", "555-555-5556", LibraryMember.TEACHER);
+        LibraryMember teacherMember = new TeacherMember("456", "Jane", "555-555-5556");
         Book teacherBook = new Book(2, "Teacher Book", "Author", "Description");
         
         teacherMember.checkOutBook(teacherBook, LocalDate.now().minusDays(15));     
@@ -93,25 +93,9 @@ public class TestLibraryMember {
 
     @Test
     public void testUpdateLastPayment() {
-        LibraryMember member = new LibraryMember("123", "John", "555-555-5555", LibraryMember.STUDENT);
+        LibraryMember member = new StudentMember("123", "John", "555-555-5555");
         member.updateLastPayment();
 
         assertEquals(LocalDate.now(), member.getLastPayment());
-    }
-
-    @Test 
-    public void testCalcDaysOverDueCharge() {
-        LibraryMember member = new LibraryMember("123", "John", "555-555-5555", LibraryMember.STUDENT);
-        
-        // 20 - 7 = 13
-        assertEquals(13, member.calcDaysOverDue(LocalDate.now().minusDays(20)));
-    }
-
-    @Test 
-    public void testCalcOverDueCharge() {
-        LibraryMember member = new LibraryMember("123", "John", "555-555-5555", LibraryMember.STUDENT);
-        
-        // 3 * 3.00 = 9.00
-        assertEquals(9.00, member.calcOverDueCharge(3), 0.00001);
     }
 }

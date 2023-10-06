@@ -3,21 +3,17 @@ import java.time.temporal.ChronoUnit;
 import java.util.HashMap;
 import java.util.Map;
 
-public class LibraryMember {
+public abstract class LibraryMember {
     private String memberId;
     private String name;
     private String phoneNumber;
-    private int memberType;
     private Map<Integer, LocalDate> checkedOutBooks;
     private LocalDate lastPayment;
-    static final int STUDENT = 0;
-    static final int TEACHER = 1;
 
-    public LibraryMember(String memberId, String name, String phoneNumber, int typeCode)  {
+    public LibraryMember(String memberId, String name, String phoneNumber)  {
         this.memberId = memberId;
         this.name = name;
         this.phoneNumber = phoneNumber;
-        this.memberType = typeCode;
         this.checkedOutBooks = new HashMap<>();
         this.lastPayment = LocalDate.now().minusDays(100);
     }
@@ -46,23 +42,9 @@ public class LibraryMember {
         this.checkedOutBooks.remove(bookID);
     }
 
-    public int calcDaysOverDue(LocalDate dayCheckedOut) {
-        if(this.memberType == STUDENT) {
-            return (int) ChronoUnit.DAYS.between(dayCheckedOut, LocalDate.now()) - 7;
-        } else if (this.memberType == TEACHER) {
-            return (int) ChronoUnit.DAYS.between(dayCheckedOut, LocalDate.now()) - 14;
-        } 
-        return 0;
-    }
-
-    public double calcOverDueCharge(int days) {
-        if(this.memberType == STUDENT) {
-            return days * 3.00;
-        } else if (this.memberType == TEACHER) {
-            return days * 2.00;
-        } 
-        return 0.0;
-    }
+    public abstract int calcDaysOverDue(LocalDate dayCheckedOut);
+    
+    public abstract double calcOverDueCharge(int days);
 
     public Map<Integer, Integer> getOverDueBooks() {
         Map<Integer, Integer> overDueBooks = new HashMap<>();

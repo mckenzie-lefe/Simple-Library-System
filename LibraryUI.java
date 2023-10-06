@@ -30,8 +30,8 @@ public class LibraryUI {
         String memberId;
         int bookId;
         
-        library.addLibraryMember("123", new LibraryMember("123", "John Student", "555-555-5555", 0));
-        library.addLibraryMember("456", new LibraryMember("456", "Jane Teacher", "555-555-5556", 1));
+        library.addLibraryMember("123", new StudentMember("123", "John Student", "555-555-5555"));
+        library.addLibraryMember("456", new TeacherMember("456", "Jane Teacher", "555-555-5556"));
         Book book1 = new Book(1, "Book 1", "Author 1", "Description 1");
         library.addBook(1, book1);
         Book book2 = new Book(2, "Book 2", "Author 2", "Description 2");
